@@ -1,0 +1,26 @@
+.moviesList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: -10px;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.movieCard {
+  margin: 10px;
+  max-width: 176px;
+  cursor: pointer;
+}
+.movieCard:hover img,
+.movieCard:focus img {
+  box-shadow: 0px 4px 23px rgba(255, 107, 1, 0.6);
+  transform: scale(1.02);
+}
+.link {
+  text-decoration: none;
+}
+
+.buttons {
+  margin-bottom: 10px;
+}
