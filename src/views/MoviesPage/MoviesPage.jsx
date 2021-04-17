@@ -95,16 +95,8 @@ export default function MoveisPage() {
       </ul>
       {totalPage >= page && (
         <div className={s.buttons}>
-          <Button
-            onClick={prevHandler}
-            title="prev page"
-            status={!(page > 1)}
-          />
-          <Button
-            onClick={nextHandler}
-            title="next page"
-            status={page >= totalPage}
-          />
+          <Button onClick={prevHandler} title="<" status={!(page > 1)} />
+          <Button onClick={nextHandler} title=">" status={page >= totalPage} />
         </div>
       )}
     </>
