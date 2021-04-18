@@ -1,7 +1,7 @@
 import s from './CastCard.module.css';
 import PropTypes from 'prop-types';
 
-import noImage from '../../image/bg-error.png';
+import noImage from '../../image/no-img.jpg';
 
 export default function SmallMovieCard({ item }) {
   return (

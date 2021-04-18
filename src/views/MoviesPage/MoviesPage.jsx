@@ -4,11 +4,20 @@ import Searchbar from '../../components/Searchbar';
 import SmallMovieCard from '../../components/SmallMovieCard';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
+import NotFoundView from '../NotFoundView';
+
 import Api from '../../services/api';
 import s from './MoviesPage.module.css';
 import slugify from 'slugify';
 
 const makeSlug = string => slugify(string, { lower: true });
+
+const Status = {
+  IDLE: 'idle',
+  PENDING: 'pending',
+  RESOLVED: 'resolved',
+  REJECTED: 'rejected',
+};
 
 export default function MoveisPage() {
   const history = useHistory();
@@ -19,8 +28,10 @@ export default function MoveisPage() {
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState([]);
   const [totalPage, setTotalPage] = useState(-1);
-
+  const [status, setStatus] = useState(Status.IDLE);
+  const [error, setError] = useState(null);
   const [loadedImages, setLoadedImages] = useState(0);
+
   const toggleLoadind = () => {
     setLoadedImages(prev => prev + 1);
   };
@@ -39,14 +50,23 @@ export default function MoveisPage() {
 
   useEffect(() => {
     if (!query) return;
+    setStatus(Status.PENDING);
 
     Api.fetchQuery(query, page)
       .then(data => {
+        if (data.length === 0) {
+          setError('Oops... Something went wrong');
+          setStatus(Status.REJECTED);
+          return;
+        }
         setMovies(data.results);
         setTotalPage(data.total_pages);
+        setStatus(Status.RESOLVED);
       })
       .catch(error => {
         console.log(error);
+        setError(error.message);
+        setStatus(Status.REJECTED);
       });
   }, [page, query]);
 
@@ -68,36 +88,43 @@ export default function MoveisPage() {
 
   return (
     <>
-      {loadedImages < movies.length && <Loader />}
+      {/* {loadedImages < movies.length && <Loader />} */}
       <Searchbar onSubmit={handleSearchForm} />
 
-      <ul className={s.moviesList}>
-        {movies.map(movie => {
-          return (
-            <li key={movie.id} className={s.movieCard}>
-              <Link
-                className={s.link}
-                to={{
-                  pathname: `${url}/${makeSlug(`${movie.title} ${movie.id}`)}`,
-                  state: {
-                    from: {
-                      location,
-                      label: 'Back to Movies',
+      {status === Status.PENDING && <Loader />}
+      {status === Status.REJECTED && <NotFoundView message={error} />}
+      {status === Status.RESOLVED && (
+        <ul className={s.moviesList}>
+          {movies.map(movie => {
+            return (
+              <li key={movie.id} className={s.movieCard}>
+                <Link
+                  className={s.link}
+                  to={{
+                    pathname: `${url}/${makeSlug(
+                      `${movie.title} ${movie.id}`,
+                    )}`,
+                    state: {
+                      from: {
+                        location,
+                        label: 'Back to Movies',
+                      },
                     },
-                  },
-                }}
-              >
-                <SmallMovieCard onload={toggleLoadind} movie={movie} />
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-      {totalPage >= page && (
-        <div className={s.buttons}>
-          <Button onClick={prevHandler} title="<" status={!(page > 1)} />
-          <Button onClick={nextHandler} title=">" status={page >= totalPage} />
-        </div>
+                  }}
+                >
+                  <SmallMovieCard onload={toggleLoadind} movie={movie} />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
+        // {totalPage >= page && (
+        //   <div className={s.buttons}>
+        //     <Button onClick={prevHandler} title="<" status={!(page > 1)} />
+        //     <Button onClick={nextHandler} title=">" status={page >= totalPage} />
+        //   </div>
+        //     )}
       )}
     </>
   );

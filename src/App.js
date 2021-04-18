@@ -35,9 +35,11 @@ export default function App() {
             <Route path="/" exact>
               <HomePage />
             </Route>
+
             <Route path="/movies" exact>
               <MoviesPage />
             </Route>
+
             <Route path="/movies/:slug">
               <MovieDetailsPage />
             </Route>
@@ -45,6 +47,7 @@ export default function App() {
             <Route>
               <NotFoundView />
             </Route>
+
             <Redirect to="/" />
           </Switch>
         </Suspense>

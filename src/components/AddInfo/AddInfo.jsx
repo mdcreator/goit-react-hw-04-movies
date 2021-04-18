@@ -7,7 +7,7 @@ export default function AddInfo() {
 
   return (
     <div>
-      <h3 className={s.title}>Additional information</h3>
+      <h3 className={s.title}>Info</h3>
       <ul className={s.list}>
         <li>
           <NavLink
