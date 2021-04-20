@@ -32,7 +32,7 @@ export default function MoveisPage() {
   const [error, setError] = useState(null);
   const [loadedImages, setLoadedImages] = useState(0);
 
-  const toggleLoadind = () => {
+  const toggleLoad = () => {
     setLoadedImages(prev => prev + 1);
   };
 
@@ -71,9 +71,13 @@ export default function MoveisPage() {
   }, [page, query]);
 
   const handleSearchForm = searchQuery => {
-    setMovies([]);
-    setTotalPage(0);
-    setLoadedImages(0);
+    if (query === searchQuery) return;
+    setQuery(searchQuery);
+    setMovies(null);
+    // setTotalPage(0);
+    // setLoadedImages(0);
+    setError(null);
+    setStatus(Status.IDLE);
     history.push({ ...location, search: `query=${searchQuery}&page=1` });
   };
 
@@ -112,7 +116,7 @@ export default function MoveisPage() {
                     },
                   }}
                 >
-                  <SmallMovieCard onload={toggleLoadind} movie={movie} />
+                  <SmallMovieCard onload={toggleLoad} movie={movie} />
                 </Link>
               </li>
             );

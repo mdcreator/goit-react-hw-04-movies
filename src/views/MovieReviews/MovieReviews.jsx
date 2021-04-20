@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Loader from '../../components/Loader';
-// import NotFoundView from '../../views/NotFoundView';
+import NotFoundView from '../../views/NotFoundView';
 import Api from '../../services/api';
 // import ShowMore from 'react-simple-show-more';
 import s from './MovieReviews.module.css';
@@ -34,19 +34,19 @@ export default function Reviews({ id }) {
 
   return (
     <>
-      {reviews.length > 0 ? (
-        // {status === Status.PENDING && <Loader />}
-        // {status === Status.REJECTED && <NotFoundView message={error.message} />}
-        // {
-        //   status === Status.RESOLVED && (
-        <ul>
-          {reviews.map(review => {
-            return (
-              <li className={s.item} key={review.id}>
-                <h3 className={s.tittle}>Author: {review.author}</h3>
-                <p className={s.text}>
-                  {review.content}
-                  {/* <ShowMore
+      {/* {reviews.length > 0 ? ( */}
+      {status === Status.PENDING && <Loader />}
+      {status === Status.REJECTED && <NotFoundView message={error.message} />}
+      {
+        status === Status.RESOLVED && (
+          <ul>
+            {reviews.map(review => {
+              return (
+                <li className={s.item} key={review.id}>
+                  <h3 className={s.tittle}>Author: {review.author}</h3>
+                  <p className={s.text}>
+                    {review.content}
+                    {/* <ShowMore
                       text={review.content}
                       length={400}
                       showMoreLabel=" Show more >>"
@@ -57,14 +57,16 @@ export default function Reviews({ id }) {
                         fontWeight: 'bold',
                       }}
                     /> */}
-                </p>
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <h3 className={s.noReviews}>This information was not found</h3>
-      )}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        )
+        // : (
+        //   <h3 className={s.noReviews}>This information was not found</h3>
+        // )
+      }
     </>
   );
 }
