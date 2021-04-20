@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import Searchbar from '../../components/Searchbar';
 import SmallMovieCard from '../../components/SmallMovieCard';
-import Button from '../../components/Button';
+// import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import NotFoundView from '../NotFoundView';
 
@@ -81,14 +81,14 @@ export default function MoveisPage() {
     history.push({ ...location, search: `query=${searchQuery}&page=1` });
   };
 
-  const prevHandler = () => {
-    setLoadedImages(0);
-    history.push({ ...location, search: `query=${query}&page=${page - 1}` });
-  };
-  const nextHandler = () => {
-    setLoadedImages(0);
-    history.push({ ...location, search: `query=${query}&page=${page + 1}` });
-  };
+  // const prevHandler = () => {
+  //   setLoadedImages(0);
+  //   history.push({ ...location, search: `query=${query}&page=${page - 1}` });
+  // };
+  // const nextHandler = () => {
+  //   setLoadedImages(0);
+  //   history.push({ ...location, search: `query=${query}&page=${page + 1}` });
+  // };
 
   return (
     <>
@@ -123,12 +123,12 @@ export default function MoveisPage() {
           })}
         </ul>
 
-        // {totalPage >= page && (
+        //   {totalPage >= page && (
         //   <div className={s.buttons}>
         //     <Button onClick={prevHandler} title="<" status={!(page > 1)} />
         //     <Button onClick={nextHandler} title=">" status={page >= totalPage} />
         //   </div>
-        //     )}
+        // )}
       )}
     </>
   );
